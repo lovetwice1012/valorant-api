@@ -78,9 +78,9 @@ app.get('/getUser/:gameName/:tagline', async (req, res) => {
 
 const validPlatforms = ['AP', 'BR', 'EU', 'KR', 'LATAM', 'NA'];
 
-app.get('/getPlatformStatus/:platform', async (req, res) => {
+app.get('/getPlatformStatus/:platform/?apikey=xv8XPdB9VZitYRvJN2QnDYmuMpgocJ7C/riot.txt', async (req, res) => {
+    return res.send("7719b39b-91ee-4466-94c3-89e4cf28f990");
     const { platform } = req.params;
-
     if (!validPlatforms.includes(platform)) {
         return res.status(400).send('Invalid platform specified.');
     }
