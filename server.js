@@ -76,6 +76,28 @@ app.get('/getUser/:gameName/:tagline', async (req, res) => {
     }
 });
 
+const validPlatforms = ['AP', 'BR', 'EU', 'KR', 'LATAM', 'NA'];
+
+app.get('/getPlatformStatus/:platform', async (req, res) => {
+    const { platform } = req.params;
+
+    if (!validPlatforms.includes(platform)) {
+        return res.status(400).send('Invalid platform specified.');
+    }
+
+    try {
+        // Get platform status
+        const statusResponse = await axios.get(`https://${platform}.api.riotgames.com/val/status/v1/platform-data?api_key=${apiKey}`);
+        const platformStatus = statusResponse.data;
+
+        // Return the data
+        res.json(platformStatus);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while fetching data.');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
