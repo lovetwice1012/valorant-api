@@ -53,6 +53,29 @@ app.get('/getMatchList/:gameName/:tagline', async (req, res) => {
     }
 });
 
+app.get('/getUser/:gameName/:tagline', async (req, res) => {
+    const { gameName, tagline } = req.params;
+
+    try {
+        // Step 1: Get puuid
+        const puuidResponse = await axios.get(`https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${gameName}/${tagline}?api_key=${apiKey}`);
+        const puuid = puuidResponse.data.puuid;
+
+        // Step 2: Get activeShard
+        const shardResponse = await axios.get(`https://asia.api.riotgames.com/riot/account/v1/active-shards/by-game/val/by-puuid/${puuid}?api_key=${apiKey}`);
+        const activeShard = shardResponse.data.activeShard;
+
+        // Return the data
+        res.json({
+            puuid: puuid,
+            activeShard: activeShard
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while fetching data.');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
