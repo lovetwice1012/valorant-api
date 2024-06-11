@@ -7,7 +7,7 @@ const port = 9001;
 
 const apiKey = process.env.RIOT_API_KEY;
 
-app.get('/riot.txt',(req,res)=>return res.send("7719b39b-91ee-4466-94c3-89e4cf28f990"))
+app.get('/riot.txt',(req,res)=> res.send("7719b39b-91ee-4466-94c3-89e4cf28f990"))
 
 app.get('/getMatchList/:gameName/:tagline', async (req, res) => {
     const { gameName, tagline } = req.params;
