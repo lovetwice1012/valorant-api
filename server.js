@@ -98,6 +98,22 @@ app.get('/getPlatformStatus/:platform', async (req, res) => {
     }
 });
 
+app.get('/getUserByPuuid/:puuid', async (req, res) => {
+    const { puuid } = req.params;
+
+    try {
+        // Get user by puuid
+        const userResponse = await axios.get(`https://asia.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}?api_key=${apiKey}`);
+        const userData = userResponse.data;
+
+        // Return the data
+        res.json(userData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred while fetching data.');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
